@@ -1,5 +1,5 @@
 PODS:
-  - YSRangeSlider (3.0.0)
+  - YSRangeSlider (3.1.0)
 
 DEPENDENCIES:
   - YSRangeSlider (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  YSRangeSlider: 57db79ae92b75ec59376b70bb3f22ebc84964de3
+  YSRangeSlider: 791b224d7b0871c99f779eb7ec333eda147cdbab
 
 PODFILE CHECKSUM: e5cd5f0c9c25be1ded11d3812820cd4ef93c2ad9
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.2.0.beta.1

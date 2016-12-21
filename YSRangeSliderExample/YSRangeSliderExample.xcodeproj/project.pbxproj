@@ -173,10 +173,12 @@
 				TargetAttributes = {
 					CF19ED971C63A5EA004A674D = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = SGVY646LPP;
 						LastSwiftMigration = 0800;
 					};
 					CF19EDAB1C63A5EA004A674D = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = SGVY646LPP;
 						LastSwiftMigration = 0800;
 						TestTargetID = CF19ED971C63A5EA004A674D;
 					};
@@ -411,6 +413,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = SGVY646LPP;
 				INFOPLIST_FILE = YSRangeSliderExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = YS.YSRangeSliderExample;
@@ -425,6 +428,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = SGVY646LPP;
 				INFOPLIST_FILE = YSRangeSliderExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = YS.YSRangeSliderExample;
@@ -437,6 +441,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = SGVY646LPP;
 				INFOPLIST_FILE = YSRangeSliderExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = YS.YSRangeSliderExampleTests;
@@ -450,6 +455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = SGVY646LPP;
 				INFOPLIST_FILE = YSRangeSliderExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = YS.YSRangeSliderExampleTests;

@@ -10,6 +10,10 @@ import UIKit
 
 @IBDesignable open class YSRangeSlider: UIControl {
     // MARK: - Public Properties
+    /// Slider Type
+    @IBInspectable open var rangeEnabled: Bool = true {
+        didSet { updateComponentsPosition() }
+    }
     
     /// The minimum possible value to select in the range. The default value of this property is `0.0`
     @IBInspectable open var minimumValue: CGFloat = 0.0 {
@@ -50,9 +54,9 @@ import UIKit
     }
     /** The step, or increment, value for the slider. The default value of this property is `0.0`
      
-    - Note: Default value is `0.0`, which means it is disabled
-    - Precondition: Must be numerically greater than `0` and less than or equal to `maximumValue`
-    */
+     - Note: Default value is `0.0`, which means it is disabled
+     - Precondition: Must be numerically greater than `0` and less than or equal to `maximumValue`
+     */
     @IBInspectable open var step: CGFloat = 0.0 {
         didSet {
             if step < 0 {
@@ -166,7 +170,7 @@ import UIKit
     public let thumbsDistanceLineLayer = CALayer()
     
     // MARK: - Private Properties
-
+    
     private let thumbTouchAreaExpansion: CGFloat = -90.0
     private var leftThumbSelected = false
     private var rightThumbSelected = false
@@ -211,6 +215,15 @@ import UIKit
         rightThumbLayer.shadowRadius = rightThumbShadowRadius
         layer.addSublayer(rightThumbLayer)
         
+        if rangeEnabled == false
+        {
+            rightThumbLayer.isHidden = true
+        }
+        else
+        {
+            rightThumbLayer.isHidden = false
+        }
+        
         updateComponentsPosition()
     }
     
@@ -230,9 +243,9 @@ import UIKit
     
     override open func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let pressGestureLocation = touch.location(in: self)
-
+        
         if leftThumbLayer.frame.insetBy(dx: thumbTouchAreaExpansion, dy: thumbTouchAreaExpansion).contains(pressGestureLocation) ||
-           rightThumbLayer.frame.insetBy(dx: thumbTouchAreaExpansion, dy: thumbTouchAreaExpansion).contains(pressGestureLocation) {
+            rightThumbLayer.frame.insetBy(dx: thumbTouchAreaExpansion, dy: thumbTouchAreaExpansion).contains(pressGestureLocation) {
             let distanceFromLeftThumb = distanceBetween(pressGestureLocation, leftThumbLayer.frame.center)
             let distanceFromRightThumb = distanceBetween(pressGestureLocation, rightThumbLayer.frame.center)
             
@@ -243,8 +256,11 @@ import UIKit
                 leftThumbSelected = true
                 animate(thumbLayer: leftThumbLayer, isSelected: true)
             } else {
-                rightThumbSelected = true
-                animate(thumbLayer: rightThumbLayer, isSelected: true)
+                if rangeEnabled
+                {
+                    rightThumbSelected = true
+                    animate(thumbLayer: rightThumbLayer, isSelected: true)
+                }
             }
             
             return true
@@ -260,7 +276,7 @@ import UIKit
         
         if leftThumbSelected {
             minimumSelectedValue = (selectedValue < maximumSelectedValue) ? selectedValue : maximumSelectedValue
-        } else if rightThumbSelected {
+        } else if rightThumbSelected && rangeEnabled{
             maximumSelectedValue = (selectedValue > minimumSelectedValue) ? selectedValue : minimumSelectedValue
         }
         
@@ -272,8 +288,11 @@ import UIKit
             leftThumbSelected = false
             animate(thumbLayer: leftThumbLayer, isSelected: false)
         } else {
-            rightThumbSelected = false
-            animate(thumbLayer: rightThumbLayer, isSelected: false)
+            if rangeEnabled
+            {
+                rightThumbSelected = false
+                animate(thumbLayer: rightThumbLayer, isSelected: false)
+            }
         }
     }
     
@@ -284,16 +303,33 @@ import UIKit
         CATransaction.setDisableActions(true)
         updateThumbsPosition()
         CATransaction.commit()
-        
-        delegate?.rangeSliderDidChange(self, minimumSelectedValue: minimumSelectedValue, maximumSelectedValue: maximumSelectedValue)
+        if rangeEnabled
+        {
+            delegate?.rangeSliderDidChange(self, minimumSelectedValue: Double(minimumSelectedValue), maximumSelectedValue: Double(maximumSelectedValue))
+        }
+        else
+        {
+            delegate?.rangeSliderDidChange(self, minimumSelectedValue: Double(minimumSelectedValue), maximumSelectedValue: nil)
+        }
     }
     
     private func updateThumbsPosition() {
         let leftThumbCenter = CGPoint(x: getXPositionAlongSliderFor(value: minimumSelectedValue), y: sliderLineLayer.frame.midY)
-        let rightThumbCenter = CGPoint(x: getXPositionAlongSliderFor(value: maximumSelectedValue), y: sliderLineLayer.frame.midY)
+        
         
         leftThumbLayer.position = leftThumbCenter
+        let rightThumbCenter = CGPoint(x: getXPositionAlongSliderFor(value: maximumSelectedValue), y: sliderLineLayer.frame.midY)
         rightThumbLayer.position = rightThumbCenter
+        
+        if rangeEnabled
+        {
+            rightThumbLayer.isHidden = false
+        }
+        else
+        {
+            rightThumbLayer.isHidden = true
+        }
+        
         thumbsDistanceLineLayer.frame = CGRect(x: leftThumbLayer.position.x, y: sliderLineLayer.frame.origin.y, width: rightThumbLayer.position.x - leftThumbLayer.position.x, height: sliderLineHeight)
     }
     
@@ -305,7 +341,7 @@ import UIKit
         let percentage = getPercentageAlongSliderFor(value: value)
         let differenceBetweenMaxMinCoordinatePositionX = sliderLineLayer.frame.maxX - sliderLineLayer.frame.minX
         let offset = percentage * differenceBetweenMaxMinCoordinatePositionX
-    
+        
         return sliderLineLayer.frame.minX + offset
     }
     
@@ -338,10 +374,10 @@ extension CGRect {
 public protocol YSRangeSliderDelegate: class {
     /** Delegate function that is called every time minimum or maximum selected value is changed
      
-    - Parameters:
-        - rangeSlider: Current instance of `YSRangeSlider`
-        - minimumSelectedValue: The minimum selected value
-        - maximumSelectedValue: The maximum selected value
-    */
-    func rangeSliderDidChange(_ rangeSlider: YSRangeSlider, minimumSelectedValue: CGFloat, maximumSelectedValue: CGFloat)
+     - Parameters:
+     - rangeSlider: Current instance of `YSRangeSlider`
+     - minimumSelectedValue: The minimum selected value
+     - maximumSelectedValue: The maximum selected value
+     */
+    func rangeSliderDidChange(_ rangeSlider: YSRangeSlider, minimumSelectedValue: Double, maximumSelectedValue: Double?)
 }
