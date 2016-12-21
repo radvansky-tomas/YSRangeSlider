@@ -109,6 +109,14 @@ import UIKit
     @IBInspectable open var leftThumbColor: UIColor = UIColor.black {
         didSet { leftThumbLayer.backgroundColor = leftThumbColor.cgColor }
     }
+    /// The border color of the right thumb. The default value of this property is `clear`
+    @IBInspectable var leftThumbBorderColor:UIColor = UIColor.clear {
+        didSet { leftThumbLayer.borderColor = leftThumbBorderColor.cgColor }
+    }
+    /// The border width of the left thumb. The default value of this property is `0.0`
+    @IBInspectable open var leftThumbBorderWidth:CGFloat = 0.0 {
+        didSet { leftThumbLayer.borderWidth = leftThumbBorderWidth }
+    }
     /// The corner radius of the left thumb. The default value of this property is `10.0`
     @IBInspectable open var leftThumbCornerRadius: CGFloat = 10.0 {
         didSet { leftThumbLayer.cornerRadius = leftThumbCornerRadius }
@@ -132,6 +140,14 @@ import UIKit
     /// The color of the right thumb. The default value of this property is `black`
     @IBInspectable open var rightThumbColor: UIColor = UIColor.black {
         didSet { rightThumbLayer.backgroundColor = rightThumbColor.cgColor }
+    }
+    /// The border color of the right thumb. The default value of this property is `clear`
+    @IBInspectable var rightThumbBorderColor:UIColor = UIColor.clear {
+        didSet { rightThumbLayer.borderColor = rightThumbBorderColor.cgColor }
+    }
+    /// The border width of the left thumb. The default value of this property is `0.0`
+    @IBInspectable open var rightThumbBorderWidth:CGFloat = 0.0 {
+        didSet { rightThumbLayer.borderWidth = rightThumbBorderWidth }
     }
     /// The corner radius of the right thumb. The default value of this property is `10.0`
     @IBInspectable open var rightThumbCornerRadius: CGFloat = 10.0 {
