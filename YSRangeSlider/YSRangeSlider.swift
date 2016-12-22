@@ -178,8 +178,7 @@ import UIKit
     }
     
     /// The delegate of `YSRangeSlider`
-    open weak var delegate: YSRangeSliderDelegate?
-    
+    open var onChanged:((_ rangeSlider: YSRangeSlider, _ minimumSelectedValue: Double, _ maximumSelectedValue: Double?)->())?
     public let sliderLineLayer = CALayer()
     public let leftThumbLayer = CALayer()
     public let rightThumbLayer = CALayer()
@@ -321,11 +320,13 @@ import UIKit
         CATransaction.commit()
         if rangeEnabled
         {
-            delegate?.rangeSliderDidChange(self, minimumSelectedValue: Double(minimumSelectedValue), maximumSelectedValue: Double(maximumSelectedValue))
+            onChanged?(self, Double(minimumSelectedValue), Double(maximumSelectedValue))
+            //delegate?.rangeSliderDidChange(self, minimumSelectedValue: Double(minimumSelectedValue), maximumSelectedValue: Double(maximumSelectedValue))
         }
         else
         {
-            delegate?.rangeSliderDidChange(self, minimumSelectedValue: Double(minimumSelectedValue), maximumSelectedValue: nil)
+            onChanged?(self, Double(minimumSelectedValue), nil)
+            //delegate?.rangeSliderDidChange(self, minimumSelectedValue: Double(minimumSelectedValue), maximumSelectedValue: nil)
         }
     }
     
@@ -385,15 +386,3 @@ extension CGRect {
     }
 }
 
-// MARK: - YSRangeSliderDelegate
-
-public protocol YSRangeSliderDelegate: class {
-    /** Delegate function that is called every time minimum or maximum selected value is changed
-     
-     - Parameters:
-     - rangeSlider: Current instance of `YSRangeSlider`
-     - minimumSelectedValue: The minimum selected value
-     - maximumSelectedValue: The maximum selected value
-     */
-    func rangeSliderDidChange(_ rangeSlider: YSRangeSlider, minimumSelectedValue: Double, maximumSelectedValue: Double?)
-}
